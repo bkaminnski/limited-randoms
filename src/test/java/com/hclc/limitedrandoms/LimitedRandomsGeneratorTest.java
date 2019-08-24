@@ -16,7 +16,7 @@ public class LimitedRandomsGeneratorTest {
     @ParameterizedTest(name = "{index} => generator ''{0}''")
     @EnumSource(LimitType.class)
     void sumOfGeneratedValuesShouldBeCloseToTotalSum(LimitType limitType) {
-        Input input = prepareInput(limitType);
+        LimitedRandomsInput input = prepareInput(limitType);
         LimitedRandomsGenerator limitedRandomsGenerator = new LimitedRandomsGenerator(input);
 
         List<BigDecimal> output = limitedRandomsGenerator.generate();
@@ -28,7 +28,7 @@ public class LimitedRandomsGeneratorTest {
     @ParameterizedTest(name = "{index} => generator ''{0}''")
     @EnumSource(LimitType.class)
     void numberOfGeneratedValuesShouldBeTheSameAsInInput(LimitType limitType) {
-        Input input = prepareInput(limitType);
+        LimitedRandomsInput input = prepareInput(limitType);
         LimitedRandomsGenerator limitedRandomsGenerator = new LimitedRandomsGenerator(input);
 
         List<BigDecimal> output = limitedRandomsGenerator.generate();
@@ -36,9 +36,9 @@ public class LimitedRandomsGeneratorTest {
         Assertions.assertThat(output.size()).isEqualTo(input.getNumberOfValues());
     }
 
-    private Input prepareInput(LimitType limitType) {
+    private LimitedRandomsInput prepareInput(LimitType limitType) {
         BigDecimal totalSum = new BigDecimal(100000);
         List<BigDecimal> limits = List.of(new BigDecimal(1), new BigDecimal(10), new BigDecimal(1), new BigDecimal(10));
-        return new Input(totalSum, 1000, 2, limits, limitType);
+        return new LimitedRandomsInput(totalSum, 1000, 2, limits, limitType);
     }
 }

@@ -3,15 +3,28 @@ package com.hclc.limitedrandoms;
 import java.math.BigDecimal;
 import java.util.List;
 
-public class Input {
+import static java.lang.Integer.parseInt;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Stream.of;
 
+public class LimitedRandomsInput {
     private final BigDecimal totalSum;
     private final int numberOfValues;
     private final List<BigDecimal> limits;
     private final int precision;
     private final LimitType limitType;
 
-    public Input(BigDecimal totalSum, int numberOfValues, int precision, List<BigDecimal> limits, LimitType limitType) {
+    public LimitedRandomsInput(String[] args) {
+        this(
+                new BigDecimal(args[0]),
+                parseInt(args[1]),
+                parseInt(args[2]),
+                of(args[3].split(";")).map(BigDecimal::new).collect(toList()),
+                LimitType.valueOf(args[4])
+        );
+    }
+
+    public LimitedRandomsInput(BigDecimal totalSum, int numberOfValues, int precision, List<BigDecimal> limits, LimitType limitType) {
         this.limitType = limitType;
         if (totalSum == null || totalSum.compareTo(BigDecimal.ZERO) <= 0) {
             throw new IllegalArgumentException("totalSum needs to be positive");
@@ -35,23 +48,19 @@ public class Input {
         return limitType.generatorInstance(this);
     }
 
-    public BigDecimal getTotalSum() {
+    BigDecimal getTotalSum() {
         return totalSum;
     }
 
-    public int getNumberOfValues() {
+    int getNumberOfValues() {
         return numberOfValues;
     }
 
-    public int getPrecision() {
+    int getPrecision() {
         return precision;
     }
 
-    public List<BigDecimal> getLimits() {
+    List<BigDecimal> getLimits() {
         return limits;
-    }
-
-    public LimitType getLimitType() {
-        return limitType;
     }
 }

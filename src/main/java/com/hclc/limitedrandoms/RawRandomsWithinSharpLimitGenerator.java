@@ -8,10 +8,9 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.toList;
 
 class RawRandomsWithinSharpLimitGenerator implements RawRandomsWithinLimitGenerator {
+    private final LimitedRandomsInput input;
 
-    private final Input input;
-
-    RawRandomsWithinSharpLimitGenerator(Input input) {
+    RawRandomsWithinSharpLimitGenerator(LimitedRandomsInput input) {
         this.input = input;
     }
 

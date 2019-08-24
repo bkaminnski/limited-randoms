@@ -11,10 +11,9 @@ import java.util.stream.IntStream;
 import static java.util.stream.Collectors.toList;
 
 class RawRandomsWithinSmoothLimitGenerator implements RawRandomsWithinLimitGenerator {
+    private final LimitedRandomsInput input;
 
-    private final Input input;
-
-    RawRandomsWithinSmoothLimitGenerator(Input input) {
+    RawRandomsWithinSmoothLimitGenerator(LimitedRandomsInput input) {
         this.input = input;
     }
 
