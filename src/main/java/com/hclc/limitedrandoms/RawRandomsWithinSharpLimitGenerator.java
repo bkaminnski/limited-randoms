@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
-class RawRandomsWithinSharpLimitGenerator implements RawRandomsWithinLimitGenerator {
+class RawRandomsWithinSharpLimitGenerator extends RawRandomsWithinLimitGenerator {
     private final LimitedRandomsInput input;
 
     RawRandomsWithinSharpLimitGenerator(LimitedRandomsInput input) {
@@ -19,7 +19,8 @@ class RawRandomsWithinSharpLimitGenerator implements RawRandomsWithinLimitGenera
         return IntStream
                 .range(0, input.getNumberOfValues())
                 .map(this::toLimitIndex)
-                .mapToObj(this::randomUpToLimit)
+                .mapToObj(this::toLimitValue)
+                .map(this::randomValueAround)
                 .collect(toList());
     }
 
@@ -27,7 +28,7 @@ class RawRandomsWithinSharpLimitGenerator implements RawRandomsWithinLimitGenera
         return (int) (1.0 * i / input.getNumberOfValues() * input.getLimits().size());
     }
 
-    private BigDecimal randomUpToLimit(int limitIndex) {
-        return input.getLimits().get(limitIndex).multiply(new BigDecimal(ThreadLocalRandom.current().nextDouble()));
+    private BigDecimal toLimitValue(int limitIndex) {
+        return input.getLimits().get(limitIndex);
     }
 }

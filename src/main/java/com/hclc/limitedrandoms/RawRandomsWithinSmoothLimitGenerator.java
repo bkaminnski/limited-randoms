@@ -5,12 +5,11 @@ import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.toList;
 
-class RawRandomsWithinSmoothLimitGenerator implements RawRandomsWithinLimitGenerator {
+class RawRandomsWithinSmoothLimitGenerator extends RawRandomsWithinLimitGenerator {
     private final LimitedRandomsInput input;
 
     RawRandomsWithinSmoothLimitGenerator(LimitedRandomsInput input) {
@@ -24,7 +23,8 @@ class RawRandomsWithinSmoothLimitGenerator implements RawRandomsWithinLimitGener
                 .range(0, input.getNumberOfValues())
                 .asDoubleStream()
                 .map(splineFunction::value)
-                .mapToObj(v -> new BigDecimal(v).multiply(new BigDecimal(ThreadLocalRandom.current().nextDouble())))
+                .mapToObj(BigDecimal::new)
+                .map(this::randomValueAround)
                 .collect(toList());
     }
 
